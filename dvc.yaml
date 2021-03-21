@@ -1,0 +1,8 @@
+stages:
+  split:
+    cmd: python src/pipeline/scrape.py ${dataset.apps_dataset_path} ${dataset.reviews_datase_path}
+    deps:
+    - src/pipeline/scrape.py
+    outs:
+    - ${dataset.apps_dataset_path}
+    - ${dataset.reviews_datase_path}

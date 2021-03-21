@@ -1,0 +1,3 @@
+dataset:
+  apps_dataset_path: data/raw/apps.csv
+  reviews_datase_path: data/raw/reviews.csv

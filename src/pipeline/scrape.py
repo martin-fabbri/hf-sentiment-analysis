@@ -20,7 +20,7 @@ def print_json(json_object):
     print(highlight(json_str, JsonLexer(), TerminalFormatter()))
 
 
-def scrape(show_debug: bool = False):
+def scrape(apps_dataset_path, reviews_datase_path, show_debug: bool = False):
     app_packages = [
         "com.anydo",
         "com.todoist",
@@ -54,7 +54,7 @@ def scrape(show_debug: bool = False):
     if show_debug:
         print(app_infos_df)
 
-    app_infos_df.to_csv("apps.csv", index=None, header=True)
+    app_infos_df.to_csv(apps_dataset_path, index=None, header=True)
 
     app_reviews = []
 
@@ -82,7 +82,7 @@ def scrape(show_debug: bool = False):
         print(app_reviews[0])
 
     app_reviews_df = pd.DataFrame(app_reviews)
-    app_reviews_df.to_csv("reviews.csv", index=None, header=True)
+    app_reviews_df.to_csv(reviews_datase_path, index=None, header=True)
 
 
 if __name__ == "__main__":
