@@ -11,6 +11,7 @@ seaborn = "*"
 pigments = "*"
 typer = "*"
 dvc = "*"
+transformers = "*"
 
 [dev-packages]
 
