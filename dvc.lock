@@ -8,22 +8,28 @@ stages:
       size: 2423
     outs:
     - path: data/raw/apps.csv
-      md5: 761d7778b71d51e8df46d8ea07a79473
-      size: 138580
+      md5: fa71f94b9b98197441b42a0932c2f9e5
+      size: 138586
     - path: data/raw/reviews.csv
-      md5: e1c6f7cb2a07cca57c629880b6b83523
-      size: 13502721
+      md5: b677c4352366834610564c0e06a28779
+      size: 13557344
   split:
     cmd: python src/pipeline/split.py 42 data/raw/reviews.csv data/processed/train_split.csv
       data/processed/val_split.csv data/processed/test_split.csv
     deps:
     - path: data/raw/reviews.csv
-      md5: e1c6f7cb2a07cca57c629880b6b83523
-      size: 13502721
+      md5: b677c4352366834610564c0e06a28779
+      size: 13557344
     - path: src/pipeline/split.py
       md5: f9d6160000f93e5cd86b3b99ff6a2fec
       size: 958
     outs:
+    - path: data/processed/test_split.csv
+      md5: 7488b5ad9c2dbae36b3c9cbd2fc6fcea
+      size: 12376450
     - path: data/processed/train_split.csv
-      md5: a60b96ad3f79759616ab32e012680bb9
-      size: 12324044
+      md5: 7488b5ad9c2dbae36b3c9cbd2fc6fcea
+      size: 12376450
+    - path: data/processed/val_split.csv
+      md5: 7488b5ad9c2dbae36b3c9cbd2fc6fcea
+      size: 12376450
