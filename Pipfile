@@ -12,6 +12,8 @@ pigments = "*"
 typer = "*"
 dvc = "*"
 transformers = "*"
+torch = "*"
+scikit-learn = "*"
 
 [dev-packages]
 

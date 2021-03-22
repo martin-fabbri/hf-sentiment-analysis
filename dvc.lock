@@ -1,6 +1,26 @@
 schema: '2.0'
 stages:
   split:
+    cmd: python src/pipeline/split.py 42 data/raw/reviews.csv data/processed/train_split.csv
+      data/processed/val_split.csv data/processed/test_split.csv
+    deps:
+    - path: data/raw/reviews.csv
+      md5: 066b9a51362e395081a051b450dc5e7e
+      size: 13540398
+    - path: src/pipeline/split.py
+      md5: f9d6160000f93e5cd86b3b99ff6a2fec
+      size: 958
+    outs:
+    - path: data/processed/test_split.csv
+      md5: a9c1758dbd7f3e0d7e6455e4ed34bc86
+      size: 12356928
+    - path: data/processed/train_split.csv
+      md5: a9c1758dbd7f3e0d7e6455e4ed34bc86
+      size: 12356928
+    - path: data/processed/val_split.csv
+      md5: a9c1758dbd7f3e0d7e6455e4ed34bc86
+      size: 12356928
+  scrape:
     cmd: python src/pipeline/scrape.py data/raw/apps.csv data/raw/reviews.csv
     deps:
     - path: src/pipeline/scrape.py
@@ -8,8 +28,8 @@ stages:
       size: 2423
     outs:
     - path: data/raw/apps.csv
-      md5: cebca3ed0356221708fd5ed189010d6c
-      size: 138595
+      md5: 6604fc6a2a4ba6d181f12ffeddf24afd
+      size: 138573
     - path: data/raw/reviews.csv
-      md5: 348c566e4e433fe22f1094f38025512d
-      size: 13446413
+      md5: 066b9a51362e395081a051b450dc5e7e
+      size: 13540398
