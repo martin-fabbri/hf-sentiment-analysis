@@ -7,11 +7,11 @@ stages:
     - ${dataset.apps_dataset_path}
     - ${dataset.reviews_datase_path}
   split:
-      cmd: python src/pipeline/split.py ${global.ramdom_seed} ${dataset.reviews_datase_path} ${split.train_split_path} ${split.val_split_path} ${split.test_split_path}
-      deps:
-      - src/pipeline/split.py
-      - ${dataset.reviews_datase_path}
-      outs:
-      - ${split.train_split_path} 
-      - ${split.val_split_path}
-      - ${split.test_split_path}
+    cmd: python src/pipeline/split.py ${global.ramdom_seed} ${dataset.reviews_datase_path} ${split.train_split_path} ${split.val_split_path} ${split.test_split_path}
+    deps:
+    - src/pipeline/split.py
+    - ${dataset.reviews_datase_path}
+    outs:
+    - ${split.train_split_path} 
+    - ${split.val_split_path}
+    - ${split.test_split_path}
