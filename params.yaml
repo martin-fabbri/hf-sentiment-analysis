@@ -10,3 +10,8 @@ split:
   train_split_path: data/processed/train_split.csv
   val_split_path: data/processed/val_split.csv
   test_split_path: data/processed/test_split.csv
+
+train:
+  batch_size: 16
+  max_len_tokenks: 160
+  epochs: 10

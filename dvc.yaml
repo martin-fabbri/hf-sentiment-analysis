@@ -15,3 +15,16 @@ stages:
     - ${split.train_split_path} 
     - ${split.val_split_path}
     - ${split.test_split_path}
+  train:
+    cmd: python src/pipeline/train.py 
+      ${global.pre_trained_model_name} 
+      ${split.train_split_path} 
+      ${split.val_split_path} 
+      ${train.epochs} 
+      ${train.max_len_tokenks} 
+      ${train.batch_size} 
+    deps:
+    - src/pipeline/train.py
+    - ${split.train_split_path} 
+    - ${split.val_split_path} 
+
