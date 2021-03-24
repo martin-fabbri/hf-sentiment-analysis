@@ -1,17 +1,27 @@
 global:
   ramdom_seed: 42
-  pre_trained_model_name: "bert-base-cased"
+  pre_trained_model_name: "bert-base-uncased"
 
 dataset:
   apps_dataset_path: data/raw/apps.csv
   reviews_datase_path: data/raw/reviews.csv
+  imdb_dataset_path: data/raw/imbd-train.csv
 
 split:
   train_split_path: data/processed/train_split.csv
   val_split_path: data/processed/val_split.csv
   test_split_path: data/processed/test_split.csv
 
+models:
+  imdb_bert:
+    dropout: 0.3
+    linear_units: 768
+
+
 train:
-  batch_size: 16
-  max_len_tokenks: 160
+  train_batch_size: 8
+  valid_batch_size: 4
+  max_len_tokenks: 512
   epochs: 10
+  accumulation: 2
+  model_path: models/imdb_classification/

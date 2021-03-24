@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 
 
-class GPReviewDataset(Dataset):
+class BertDataset(Dataset):
     def __init__(self, reviews, targets, tokenizer, max_len):
         self.reviews = reviews
         self.targets = targets
@@ -23,6 +23,7 @@ class GPReviewDataset(Dataset):
             return_token_type_ids=False,
             pad_to_max_length=True,
             return_attention_mask=True,
+            return_token_type_ids=True,
             return_tensors="pt",
         )
 
@@ -30,12 +31,13 @@ class GPReviewDataset(Dataset):
             "review_text": review,
             "input_ids": encoding["input_ids"].flatten(),
             "attention_mask": encoding["attention_mask"].flatten(),
-            "targets": torch.tensor(target, dtype=torch.long),
+            "token_type_ids": encoding["token_type_ids"].flatten(),
+            "targets": torch.tensor(target, dtype=torch.float),
         }
 
 
 def create_data_loader(df, tokenizer, max_len, batch_size):
-    ds = GPReviewDataset(
+    ds = BertDataset(
         reviews=df.content.to_numpy(),
         targets=df.sentiment.to_numpy(),
         tokenizer=tokenizer,
