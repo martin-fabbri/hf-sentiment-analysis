@@ -11,7 +11,21 @@ class BERTBaseUncased(nn.Module):
         self.out = nn.Linear(linear_units, 1)
 
     def forward(self, ids, mask, token_type_ids):
-        _, out2 = self.bert(ids, attention_mask=mask, token_type_ids=token_type_ids)
-        bert_output = self.bert_drop(out2)
+        outputs = self.bert(ids, attention_mask=mask, token_type_ids=token_type_ids)
+        print("************")
+        print("************")
+        print(outputs)
+        print("************")
+        print(outputs.keys())
+        print("************")
+        print(outputs.prediction_logits)
+        print("************")
+        print("************")
+        bert_output = self.bert_drop(outputs.prediction_logits)
+        print("************")
+        print("************")
+        print("bert_output.shape", bert_output.shape)
         output = self.out(bert_output)
+        print("************")
+        print("************")
         return output

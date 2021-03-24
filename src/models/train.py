@@ -39,7 +39,7 @@ def train(
         df_val, bert_model_name, max_len, val_batch_size, num_workers=1
     )
 
-    device = torch.device("cuda")
+    device = torch.device("cuda:0")
     model = BERTBaseUncased(bert_model_name, dropout, linear_units)
     param_optimizer = list(model.named_parameters())
     no_decay = ["bias", "LayerNorm.bias", "LayerNorm.weight"]
@@ -67,10 +67,11 @@ def train(
         num_training_steps=num_train_steps,
     )
 
+    model = model.to(device)
     best_accuracy = 0
     for epochs in range(epochs):
         train_fn(train_dataset, model, optimizer, device)
-        outputs, targets = engine.eval_fn(val_dataset, model, optimizer, device)
+        outputs, targets = eval_fn(val_dataset, model, optimizer, device)
         outputs = np.array(outputs) >= 0.5
         accuracy = metrics.accuracy_score(targets, outputs)
         print(f"Accuracy score = {accuracy}")
