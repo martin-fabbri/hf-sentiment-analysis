@@ -14,25 +14,25 @@ stages:
       md5: b677c4352366834610564c0e06a28779
       size: 13557344
   split:
-    cmd: python src/pipeline/split.py 42 data/raw/reviews.csv data/processed/train_split.csv
+    cmd: python src/pipeline/split.py 42 data/raw/imbd-train.csv data/processed/train_split.csv
       data/processed/val_split.csv data/processed/test_split.csv
     deps:
     - path: data/raw/reviews.csv
       md5: b677c4352366834610564c0e06a28779
       size: 13557344
     - path: src/pipeline/split.py
-      md5: f9d6160000f93e5cd86b3b99ff6a2fec
-      size: 958
+      md5: 6ec04badee6317514f937f2770943bee
+      size: 797
     outs:
     - path: data/processed/test_split.csv
-      md5: 7488b5ad9c2dbae36b3c9cbd2fc6fcea
-      size: 12376450
+      md5: c91e64875ccb862916f65d637e81cdb4
+      size: 59834945
     - path: data/processed/train_split.csv
-      md5: 7488b5ad9c2dbae36b3c9cbd2fc6fcea
-      size: 12376450
+      md5: c91e64875ccb862916f65d637e81cdb4
+      size: 59834945
     - path: data/processed/val_split.csv
-      md5: 7488b5ad9c2dbae36b3c9cbd2fc6fcea
-      size: 12376450
+      md5: c91e64875ccb862916f65d637e81cdb4
+      size: 59834945
   train:
     cmd: python src/pipeline/train.py bert-base-cased data/processed/train_split.csv
       data/processed/val_split.csv 10 160 16

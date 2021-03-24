@@ -4,26 +4,17 @@ import typer
 from sklearn.model_selection import train_test_split
 
 
-def to_sentiment(rating):
-    rating = int(rating)
-    if rating <= 2:
-        return 0
-    elif rating == 3:
-        return 1
-    else:
-        return 2
-
-
 def split(
     random_seed: int,
-    reviews_datase_path: str,
+    reviews_dataset_path: str,
     train_split_path: str,
     val_split_path: str,
     test_split_path: str,
 ):
-    df = pd.read_csv(reviews_datase_path)
-    df["sentiment"] = df.score.apply(to_sentiment)
-    df_train, df_test = train_test_split(df, test_size=0.1, random_state=random_seed)
+    df = pd.read_csv(reviews_dataset_path)
+    df_train, df_test = train_test_split(
+        df, test_size=0.1, random_state=random_seed, stratify=df.sentiment.values
+    )
     df_val, df_test = train_test_split(df_test, test_size=0.5, random_state=random_seed)
 
     print("train.shape", df_train.shape)

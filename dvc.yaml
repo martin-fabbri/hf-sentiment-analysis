@@ -1,13 +1,13 @@
 stages:
-  scrape:
-    cmd: python src/pipeline/scrape.py ${dataset.apps_dataset_path} ${dataset.reviews_datase_path}
-    deps:
-    - src/pipeline/scrape.py
-    outs:
-    - ${dataset.apps_dataset_path}
-    - ${dataset.reviews_datase_path}
+  # scrape:
+  #   cmd: python src/pipeline/scrape.py ${dataset.apps_dataset_path} ${dataset.reviews_datase_path}
+  #   deps:
+  #   - src/pipeline/scrape.py
+  #   outs:
+  #   - ${dataset.apps_dataset_path}
+  #   - ${dataset.reviews_datase_path}
   split:
-    cmd: python src/pipeline/split.py ${global.ramdom_seed} ${dataset.reviews_datase_path} ${split.train_split_path} ${split.val_split_path} ${split.test_split_path}
+    cmd: python src/pipeline/split.py ${global.ramdom_seed} ${dataset.imdb_dataset_path} ${split.train_split_path} ${split.val_split_path} ${split.test_split_path}
     deps:
     - src/pipeline/split.py
     - ${dataset.reviews_datase_path}
@@ -15,16 +15,16 @@ stages:
     - ${split.train_split_path} 
     - ${split.val_split_path}
     - ${split.test_split_path}
-  train:
-    cmd: python src/pipeline/train.py 
-      ${global.pre_trained_model_name} 
-      ${split.train_split_path} 
-      ${split.val_split_path} 
-      ${train.epochs} 
-      ${train.max_len_tokenks} 
-      ${train.batch_size} 
-    deps:
-    - src/pipeline/train.py
-    - ${split.train_split_path} 
-    - ${split.val_split_path} 
+  # train:
+  #   cmd: python src/pipeline/train.py 
+  #     ${global.pre_trained_model_name} 
+  #     ${split.train_split_path} 
+  #     ${split.val_split_path} 
+  #     ${train.epochs} 
+  #     ${train.max_len_tokenks} 
+  #     ${train.batch_size} 
+  #   deps:
+  #   - src/pipeline/train.py
+  #   - ${split.train_split_path} 
+  #   - ${split.val_split_path} 
 
