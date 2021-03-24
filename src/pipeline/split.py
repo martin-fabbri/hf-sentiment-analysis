@@ -21,9 +21,9 @@ def split(
     print("test.shape ", df_test.shape)
     print("val.shape  ", df_val.shape)
 
-    df_train.to_csv(train_split_path)
-    df_train.to_csv(val_split_path)
-    df_train.to_csv(test_split_path)
+    df_train.to_csv(train_split_path, index=False)
+    df_train.to_csv(val_split_path, index=False)
+    df_train.to_csv(test_split_path, index=False)
 
 
 if __name__ == "__main__":
