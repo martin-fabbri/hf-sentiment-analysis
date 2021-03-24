@@ -1,5 +1,6 @@
 import torch
 from torch.utils.data import Dataset, DataLoader
+from transformers import AutoTokenizer
 
 
 class BertDataset(Dataset):
@@ -20,10 +21,9 @@ class BertDataset(Dataset):
             review,
             add_special_tokens=True,
             max_length=self.max_len,
-            return_token_type_ids=False,
+            return_token_type_ids=True,
             pad_to_max_length=True,
             return_attention_mask=True,
-            return_token_type_ids=True,
             return_tensors="pt",
         )
 
@@ -36,12 +36,13 @@ class BertDataset(Dataset):
         }
 
 
-def create_data_loader(df, tokenizer, max_len, batch_size):
+def create_data_loader(df, bert_model_name, max_len, batch_size, num_workers):
+    tokenizer = AutoTokenizer.from_pretrained(bert_model_name)
     ds = BertDataset(
-        reviews=df.content.to_numpy(),
+        reviews=df.review.to_numpy(),
         targets=df.sentiment.to_numpy(),
         tokenizer=tokenizer,
         max_len=max_len,
     )
 
-    return DataLoader(ds, batch_size=batch_size, num_workers=4)
+    return DataLoader(ds, batch_size=batch_size, num_workers=num_workers)

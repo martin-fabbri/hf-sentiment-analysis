@@ -1,5 +1,5 @@
 from collections import defaultdict
-import tqdm import tqdm
+from tqdm import tqdm
 import numpy as np
 import pandas as pd
 import torch
@@ -13,11 +13,11 @@ from transformers import (
     get_linear_schedule_with_warmup,
 )
 
-from data_loader import create_data_loader
+from dataset import create_data_loader
+
 
 def loss_fn(outputs, targets):
     return nn.BCEWithLogitsLoss()(outputs, targets)
-
 
 
 def train_fn(data_loader, model, optimizer, device):
@@ -36,9 +36,9 @@ def train_fn(data_loader, model, optimizer, device):
 
         optimizer.zero_grad()
         outputs = model(
-            ids = ids,
-            mask = mask,
-            token_type_ids = token_type_ids,
+            ids=ids,
+            mask=mask,
+            token_type_ids=token_type_ids,
         )
 
         loss = loss_fn(outputs, targets)
@@ -46,4 +46,3 @@ def train_fn(data_loader, model, optimizer, device):
 
         optimizer.step()
         scheduler.step()
-

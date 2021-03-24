@@ -12,6 +12,7 @@ def split(
     test_split_path: str,
 ):
     df = pd.read_csv(reviews_dataset_path)
+    df.sentiment = df.sentiment.apply(lambda x: 1.0 if x == "positive" else 0.0)
     df_train, df_test = train_test_split(
         df, test_size=0.1, random_state=random_seed, stratify=df.sentiment.values
     )

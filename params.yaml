@@ -4,7 +4,7 @@ global:
 
 dataset:
   apps_dataset_path: data/raw/apps.csv
-  reviews_datase_path: data/raw/reviews.csv
+  reviews_dataset_path: data/raw/reviews.csv
   imdb_dataset_path: data/raw/imbd-train.csv
 
 split:

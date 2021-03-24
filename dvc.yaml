@@ -7,24 +7,32 @@ stages:
   #   - ${dataset.apps_dataset_path}
   #   - ${dataset.reviews_datase_path}
   split:
-    cmd: python src/pipeline/split.py ${global.ramdom_seed} ${dataset.imdb_dataset_path} ${split.train_split_path} ${split.val_split_path} ${split.test_split_path}
+    cmd: python src/pipeline/split.py 
+      ${global.ramdom_seed} 
+      ${dataset.imdb_dataset_path} 
+      ${split.train_split_path} 
+      ${split.val_split_path} 
+      ${split.test_split_path}
     deps:
     - src/pipeline/split.py
-    - ${dataset.reviews_datase_path}
+    - ${dataset.imdb_dataset_path}
     outs:
     - ${split.train_split_path} 
     - ${split.val_split_path}
     - ${split.test_split_path}
-  # train:
-  #   cmd: python src/pipeline/train.py 
-  #     ${global.pre_trained_model_name} 
-  #     ${split.train_split_path} 
-  #     ${split.val_split_path} 
-  #     ${train.epochs} 
-  #     ${train.max_len_tokenks} 
-  #     ${train.batch_size} 
-  #   deps:
-  #   - src/pipeline/train.py
-  #   - ${split.train_split_path} 
-  #   - ${split.val_split_path} 
-
+  train:
+    cmd: python src/models/train.py 
+      ${global.pre_trained_model_name} 
+      ${split.train_split_path} 
+      ${split.val_split_path} 
+      ${train.max_len_tokenks} 
+      ${train.train_batch_size}
+      ${train.valid_batch_size}
+      ${models.imdb_bert.dropout}
+      ${models.imdb_bert.linear_units} 
+      ${train.epochs} 
+      ${train.model_path}
+    deps:
+    - src/models/train.py
+    - ${split.train_split_path} 
+    - ${split.val_split_path}
