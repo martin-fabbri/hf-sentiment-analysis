@@ -30,8 +30,8 @@ class BertDataset(Dataset):
 
         return {
             "review_text": review,
-            "input_ids": encoding["input_ids"], #.flatten(),
-            "attention_mask": encoding["attention_mask"], #.flatten(),
+            "input_ids": encoding["input_ids"].flatten(),
+            "attention_mask": encoding["attention_mask"].flatten(),
             #"token_type_ids": encoding["token_type_ids"].flatten(),
             "targets": torch.tensor(target, dtype=torch.long),
         }

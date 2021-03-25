@@ -39,7 +39,7 @@ def train_step(epoch, training_loader, model, loss_function, device, optimizer):
 
         nb_tr_steps += 1
         nb_tr_examples += targets.size(0)
-
+        
         if _%5000==0:
             loss_step = tr_loss/nb_tr_steps
             accu_step = (n_correct*100)/nb_tr_examples 
