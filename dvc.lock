@@ -21,18 +21,18 @@ stages:
       md5: 308443a50e5c993e7b8a1cdb95750026
       size: 66212309
     - path: src/pipeline/split.py
-      md5: 76c10a8afd511e3a2ae0fc9753242bfd
-      size: 917
+      md5: fb3058cec79e18f7d6f317214f8047fb
+      size: 913
     outs:
     - path: data/processed/test_split.csv
-      md5: 269f6eb136e2c906f52bd508a79b91ae
-      size: 59349946
+      md5: d2575bfeccb723c5c104c3d0c83012d9
+      size: 59259946
     - path: data/processed/train_split.csv
-      md5: 269f6eb136e2c906f52bd508a79b91ae
-      size: 59349946
+      md5: d2575bfeccb723c5c104c3d0c83012d9
+      size: 59259946
     - path: data/processed/val_split.csv
-      md5: 269f6eb136e2c906f52bd508a79b91ae
-      size: 59349946
+      md5: d2575bfeccb723c5c104c3d0c83012d9
+      size: 59259946
   train:
     cmd: python src/models/train.py bert-base-uncased data/processed/train_split.csv
       data/processed/val_split.csv 512 8 4 0.3 768 10

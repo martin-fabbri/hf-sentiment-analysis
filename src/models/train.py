@@ -15,6 +15,48 @@ from dataset import create_data_loader
 from transformers import AdamW, get_linear_schedule_with_warmup
 from train_fn import train_fn
 
+# Function to calcuate the accuracy of the model
+def calcuate_accu(big_idx, targets):
+    n_correct = (big_idx==targets).sum().item()
+    return n_correct
+
+def train_step(epoch, training_loader, model, loss_function, device, optimizer):
+    tr_loss = 0
+    n_correct = 0
+    nb_tr_steps = 0
+    nb_tr_examples = 0
+    model.train()
+
+    for _, data in enumerate(training_loader, 0):
+        ids = data["input_ids"].to(device, dtype=torch.long)
+        mask = data["attention_mask"].to(device, dtype=torch.long)
+        targets = data["targets"].to(device, dtype=torch.long)
+        outputs = model(ids, mask)
+        loss = loss_function(outputs, targets)
+        tr_loss += loss.item()
+        big_val, big_idx = torch.max(outputs.data, dim=1)
+        n_correct += calcuate_accu(big_idx, targets)
+
+        nb_tr_steps += 1
+        nb_tr_examples += targets.size(0)
+
+        if _%5000==0:
+            loss_step = tr_loss/nb_tr_steps
+            accu_step = (n_correct*100)/nb_tr_examples 
+            print(f"Training Loss per 5000 steps: {loss_step}")
+            print(f"Training Accuracy per 5000 steps: {accu_step}")
+
+        optimizer.zero_grad()
+        loss.backward()
+        # # When using GPU
+        optimizer.step()
+
+    print(f'The Total Accuracy for Epoch {epoch}: {(n_correct*100)/nb_tr_examples}')
+    epoch_loss = tr_loss/nb_tr_steps
+    epoch_accu = (n_correct*100)/nb_tr_examples
+    print(f"Training Loss Epoch: {epoch_loss}")
+    print(f"Training Accuracy Epoch: {epoch_accu}")
+    return
 
 def train(
     bert_model_name: str,
@@ -31,57 +73,32 @@ def train(
     df_train = pd.read_csv(train_split_path).fillna("none")
     df_val = pd.read_csv(val_split_path).fillna("none")
 
-    train_dataset = create_data_loader(
-        df_train, bert_model_name, max_len, train_batch_size, num_workers=4
-    )
+    train_params = {
+        "batch_size": train_batch_size,
+        "num_workers": 0,
+        "bert_model_name": bert_model_name,
+        "max_len": max_len,
+    }
 
-    val_dataset = create_data_loader(
-        df_val, bert_model_name, max_len, val_batch_size, num_workers=1
-    )
+    test_params = {
+        "batch_size": val_batch_size,
+        "num_workers": 0,
+        "bert_model_name": bert_model_name,
+        "max_len": max_len,
+    }
+
+    train_dataset = create_data_loader(df_train, **train_params)
+    test_dataset = create_data_loader(df_val, **test_params)
 
     device = torch.device("cuda:0")
     model = BERTBaseUncased(bert_model_name, dropout, linear_units)
-    param_optimizer = list(model.named_parameters())
-    no_decay = ["bias", "LayerNorm.bias", "LayerNorm.weight"]
-    optimizer_parameters = [
-        {
-            "params": [
-                p for n, p in param_optimizer if not any(nd in n for nd in no_decay)
-            ],
-            "weight_decay": 0.001,
-        },
-        {
-            "params": [
-                p for n, p in param_optimizer if any(nd in n for nd in no_decay)
-            ],
-            "weight_decay": 0.0,
-        },
-    ]
-
-    num_train_steps = int(len(df_train) / train_batch_size * epochs)
-    optimizer = AdamW(optimizer_parameters, lr=3e-5)
-
-    scheduler = get_linear_schedule_with_warmup(
-        optimizer,
-        num_warmup_steps=0,
-        num_training_steps=num_train_steps,
-    )
-
     model = model.to(device)
-    best_accuracy = 0
-    for epochs in range(epochs):
-        train_fn(train_dataset, model, optimizer, device)
-        outputs, targets = eval_fn(val_dataset, model, optimizer, device)
-        outputs = np.array(outputs) >= 0.5
-        accuracy = metrics.accuracy_score(targets, outputs)
-        print(f"Accuracy score = {accuracy}")
-        if accuracy > best_accuracy:
-            torch.save(
-                model.state_dict(),
-                classification_model_path,
-            )
-            best_accuracy = accuracy
+    loss_function = nn.CrossEntropyLoss()
+    LEARNING_RATE = 1e-05
+    optimizer = torch.optim.Adam(params=model.parameters(), lr=LEARNING_RATE)
 
+    for epoch in range(epochs):
+        train_step(epoch, train_dataset, model, loss_function, device, optimizer)
 
 if __name__ == "__main__":
     typer.run(train)
