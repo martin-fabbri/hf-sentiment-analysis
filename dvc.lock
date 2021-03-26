@@ -8,31 +8,31 @@ stages:
       size: 2423
     outs:
     - path: data/raw/apps.csv
-      md5: e3ab7a3313d4053a93b685b44e7a6c4b
-      size: 138580
+      md5: fbada048d3ebd68b7063c9a22a081620
+      size: 138577
     - path: data/raw/reviews.csv
-      md5: 380f7224a2824aae5a904c4e14a6ad7e
-      size: 13566900
+      md5: df0a6355e83e1e6c7a88569c4006ab52
+      size: 13543227
   split:
-    cmd: python src/pipeline/split.py 42 data/raw/imbd-train.csv data/processed/train_split.csv
+    cmd: python src/pipeline/split.py 42 data/raw/reviews.csv data/processed/train_split.csv
       data/processed/val_split.csv data/processed/test_split.csv
     deps:
-    - path: data/raw/imbd-train.csv
-      md5: 308443a50e5c993e7b8a1cdb95750026
-      size: 66212309
+    - path: data/raw/reviews.csv
+      md5: df0a6355e83e1e6c7a88569c4006ab52
+      size: 13543227
     - path: src/pipeline/split.py
-      md5: fb3058cec79e18f7d6f317214f8047fb
-      size: 913
+      md5: b18c1d2bdb160b0881955858c9f178a6
+      size: 1160
     outs:
     - path: data/processed/test_split.csv
-      md5: d2575bfeccb723c5c104c3d0c83012d9
-      size: 59259946
+      md5: afc1da99278f5e8e4b763257f0a71de0
+      size: 4101153
     - path: data/processed/train_split.csv
-      md5: d2575bfeccb723c5c104c3d0c83012d9
-      size: 59259946
+      md5: afc1da99278f5e8e4b763257f0a71de0
+      size: 4101153
     - path: data/processed/val_split.csv
-      md5: d2575bfeccb723c5c104c3d0c83012d9
-      size: 59259946
+      md5: afc1da99278f5e8e4b763257f0a71de0
+      size: 4101153
   train:
     cmd: python src/models/train.py bert-base-uncased data/processed/train_split.csv
       data/processed/val_split.csv 512 8 4 0.3 768 1 models/imdb_classification/

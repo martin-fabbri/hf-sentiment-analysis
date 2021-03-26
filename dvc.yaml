@@ -6,20 +6,20 @@ stages:
     outs:
     - ${dataset.apps_dataset_path}
     - ${dataset.reviews_dataset_path}
-  # split:
-  #   cmd: python src/pipeline/split.py 
-  #     ${global.ramdom_seed} 
-  #     ${dataset.imdb_dataset_path} 
-  #     ${split.train_split_path} 
-  #     ${split.val_split_path} 
-  #     ${split.test_split_path}
-  #   deps:
-  #   - src/pipeline/split.py
-  #   - ${dataset.imdb_dataset_path}
-  #   outs:
-  #   - ${split.train_split_path} 
-  #   - ${split.val_split_path}
-  #   - ${split.test_split_path}
+  split:
+    cmd: python src/pipeline/split.py 
+      ${global.ramdom_seed} 
+      ${dataset.reviews_dataset_path} 
+      ${split.train_split_path} 
+      ${split.val_split_path} 
+      ${split.test_split_path}
+    deps:
+    - src/pipeline/split.py
+    - ${dataset.reviews_dataset_path}
+    outs:
+    - ${split.train_split_path} 
+    - ${split.val_split_path}
+    - ${split.test_split_path}
   # train:
   #   cmd: python src/models/train.py 
   #     ${global.pre_trained_model_name} 
