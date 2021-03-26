@@ -8,11 +8,11 @@ stages:
       size: 2423
     outs:
     - path: data/raw/apps.csv
-      md5: fa71f94b9b98197441b42a0932c2f9e5
-      size: 138586
+      md5: e3ab7a3313d4053a93b685b44e7a6c4b
+      size: 138580
     - path: data/raw/reviews.csv
-      md5: b677c4352366834610564c0e06a28779
-      size: 13557344
+      md5: 380f7224a2824aae5a904c4e14a6ad7e
+      size: 13566900
   split:
     cmd: python src/pipeline/split.py 42 data/raw/imbd-train.csv data/processed/train_split.csv
       data/processed/val_split.csv data/processed/test_split.csv

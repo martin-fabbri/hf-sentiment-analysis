@@ -1,38 +1,38 @@
 stages:
-  # scrape:
-  #   cmd: python src/pipeline/scrape.py ${dataset.apps_dataset_path} ${dataset.reviews_datase_path}
-  #   deps:
-  #   - src/pipeline/scrape.py
-  #   outs:
-  #   - ${dataset.apps_dataset_path}
-  #   - ${dataset.reviews_datase_path}
-  split:
-    cmd: python src/pipeline/split.py 
-      ${global.ramdom_seed} 
-      ${dataset.imdb_dataset_path} 
-      ${split.train_split_path} 
-      ${split.val_split_path} 
-      ${split.test_split_path}
+  scrape:
+    cmd: python src/pipeline/scrape.py ${dataset.apps_dataset_path} ${dataset.reviews_dataset_path}
     deps:
-    - src/pipeline/split.py
-    - ${dataset.imdb_dataset_path}
+    - src/pipeline/scrape.py
     outs:
-    - ${split.train_split_path} 
-    - ${split.val_split_path}
-    - ${split.test_split_path}
-  train:
-    cmd: python src/models/train.py 
-      ${global.pre_trained_model_name} 
-      ${split.train_split_path} 
-      ${split.val_split_path} 
-      ${train.max_len_tokenks} 
-      ${train.train_batch_size}
-      ${train.valid_batch_size}
-      ${models.imdb_bert.dropout}
-      ${models.imdb_bert.linear_units} 
-      ${train.epochs} 
-      ${train.model_path}
-    deps:
-    - src/models/train.py
-    - ${split.train_split_path} 
-    - ${split.val_split_path}
+    - ${dataset.apps_dataset_path}
+    - ${dataset.reviews_dataset_path}
+  # split:
+  #   cmd: python src/pipeline/split.py 
+  #     ${global.ramdom_seed} 
+  #     ${dataset.imdb_dataset_path} 
+  #     ${split.train_split_path} 
+  #     ${split.val_split_path} 
+  #     ${split.test_split_path}
+  #   deps:
+  #   - src/pipeline/split.py
+  #   - ${dataset.imdb_dataset_path}
+  #   outs:
+  #   - ${split.train_split_path} 
+  #   - ${split.val_split_path}
+  #   - ${split.test_split_path}
+  # train:
+  #   cmd: python src/models/train.py 
+  #     ${global.pre_trained_model_name} 
+  #     ${split.train_split_path} 
+  #     ${split.val_split_path} 
+  #     ${train.max_len_tokenks} 
+  #     ${train.train_batch_size}
+  #     ${train.valid_batch_size}
+  #     ${models.imdb_bert.dropout}
+  #     ${models.imdb_bert.linear_units} 
+  #     ${train.epochs} 
+  #     ${train.model_path}
+  #   deps:
+  #   - src/models/train.py
+  #   - ${split.train_split_path} 
+  #   - ${split.val_split_path}
