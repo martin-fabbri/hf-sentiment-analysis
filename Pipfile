@@ -20,6 +20,9 @@ pylint = "*"
 ipykernel = "*"
 watermark = "*"
 pyyaml = "*"
+pip = "*"
+ipywidgets = "*"
+datasets = "*"
 
 [requires]
 python_version = "3"

@@ -23,9 +23,10 @@ def split(
 ):
     df = pd.read_csv(reviews_dataset_path)
     df["sentiment"] = df.score.apply(to_sentiment)
-    df = df[["content", "sentiment"]]
+    df = df.rename(columns={"content": "reviews"})
+    df = df[["reviews", "sentiment"]]
     df = df.dropna(axis=0, how="any")
-    df = df.reindex(columns=["content", "sentiment"])
+    df = df.reindex(columns=["reviews", "sentiment"])
     df_train, df_test = train_test_split(
         df,
         test_size=0.1,

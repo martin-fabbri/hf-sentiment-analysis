@@ -21,7 +21,7 @@ models:
 train:
   train_batch_size: 8
   valid_batch_size: 4
-  max_len_tokenks: 512
+  max_len_tokens: 512
   epochs: 1
   accumulation: 2
   model_path: models/imdb_classification/

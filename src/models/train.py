@@ -6,19 +6,21 @@ import torch
 import tqdm
 import transformers
 import typer
-from sklearn.model_selection import train_test_split
 from sklearn import metrics
+from sklearn.model_selection import train_test_split
 from torch import nn, optim
-from imdb_bert_model import BERTBaseUncased
+from transformers import AdamW, get_linear_schedule_with_warmup
 
 from dataset import create_data_loader
-from transformers import AdamW, get_linear_schedule_with_warmup
+from imdb_bert_model import BERTBaseUncased
 from train_fn import train_fn
+
 
 # Function to calcuate the accuracy of the model
 def calcuate_accu(big_idx, targets):
-    n_correct = (big_idx==targets).sum().item()
+    n_correct = (big_idx == targets).sum().item()
     return n_correct
+
 
 def train_step(epoch, training_loader, model, loss_function, device, optimizer):
     tr_loss = 0
@@ -39,10 +41,10 @@ def train_step(epoch, training_loader, model, loss_function, device, optimizer):
 
         nb_tr_steps += 1
         nb_tr_examples += targets.size(0)
-        
-        if _%5000==0:
-            loss_step = tr_loss/nb_tr_steps
-            accu_step = (n_correct*100)/nb_tr_examples 
+
+        if _ % 5000 == 0:
+            loss_step = tr_loss / nb_tr_steps
+            accu_step = (n_correct * 100) / nb_tr_examples
             print(f"Training Loss per 5000 steps: {loss_step}")
             print(f"Training Accuracy per 5000 steps: {accu_step}")
 
@@ -51,12 +53,13 @@ def train_step(epoch, training_loader, model, loss_function, device, optimizer):
         # # When using GPU
         optimizer.step()
 
-    print(f'The Total Accuracy for Epoch {epoch}: {(n_correct*100)/nb_tr_examples}')
-    epoch_loss = tr_loss/nb_tr_steps
-    epoch_accu = (n_correct*100)/nb_tr_examples
+    print(f"The Total Accuracy for Epoch {epoch}: {(n_correct*100)/nb_tr_examples}")
+    epoch_loss = tr_loss / nb_tr_steps
+    epoch_accu = (n_correct * 100) / nb_tr_examples
     print(f"Training Loss Epoch: {epoch_loss}")
     print(f"Training Accuracy Epoch: {epoch_accu}")
     return
+
 
 def train(
     bert_model_name: str,
@@ -99,6 +102,7 @@ def train(
 
     for epoch in range(epochs):
         train_step(epoch, train_dataset, model, loss_function, device, optimizer)
+
 
 if __name__ == "__main__":
     typer.run(train)
