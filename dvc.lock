@@ -21,18 +21,18 @@ stages:
       md5: df0a6355e83e1e6c7a88569c4006ab52
       size: 13543227
     - path: src/pipeline/split.py
-      md5: b18c1d2bdb160b0881955858c9f178a6
-      size: 1160
+      md5: 15bbd1e89f2aa14109f1fbcd3116abc3
+      size: 1198
     outs:
     - path: data/processed/test_split.csv
-      md5: afc1da99278f5e8e4b763257f0a71de0
-      size: 4101153
+      md5: 56841ff4d414277d81e3346e79434954
+      size: 4098347
     - path: data/processed/train_split.csv
-      md5: afc1da99278f5e8e4b763257f0a71de0
-      size: 4101153
+      md5: 56841ff4d414277d81e3346e79434954
+      size: 4098347
     - path: data/processed/val_split.csv
-      md5: afc1da99278f5e8e4b763257f0a71de0
-      size: 4101153
+      md5: 56841ff4d414277d81e3346e79434954
+      size: 4098347
   train:
     cmd: python src/models/train.py bert-base-uncased data/processed/train_split.csv
       data/processed/val_split.csv 512 8 4 0.3 768 1 models/imdb_classification/

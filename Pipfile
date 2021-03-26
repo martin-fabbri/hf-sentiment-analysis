@@ -17,6 +17,9 @@ scikit-learn = "*"
 
 [dev-packages]
 pylint = "*"
+ipykernel = "*"
+watermark = "*"
+pyyaml = "*"
 
 [requires]
 python_version = "3"
